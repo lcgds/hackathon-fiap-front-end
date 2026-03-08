@@ -1,15 +1,12 @@
-import { Avatar } from '@/components/avatar'
-import { Badge } from '@/components/badge'
 import { Button } from '@/components/button'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/description-list'
 import { Divider } from '@/components/divider'
 import { Heading, Subheading } from '@/components/heading'
 import { Input } from '@/components/input'
-import { Select } from '@/components/select'
 import { Link } from '@/components/link'
-import { getCategories, getBudget } from '@/data'
-import { MONEY } from '@/format'
-import { BanknotesIcon, CalendarIcon, ChevronLeftIcon, CreditCardIcon } from '@heroicons/react/16/solid'
+import { Select } from '@/components/select'
+import { getBudget, getCategories } from '@/data'
+import { ChevronLeftIcon, TrashIcon } from '@heroicons/react/16/solid'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
@@ -37,24 +34,26 @@ export default async function Budget({ params }: { params: Promise<{ id: string 
       <div className="max-lg:hidden">
         <Link href="/orcamento" className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400">
           <ChevronLeftIcon className="size-4 fill-zinc-400 dark:fill-zinc-500" />
-          Orçamento
+          Orçamentos
         </Link>
       </div>
       <div className="mt-4 lg:mt-8">
         <div className="flex items-center gap-4">
           <Heading>Orçamento #{budget.id}</Heading>
-          <Badge color="lime">Concluído</Badge>
         </div>
         <div className="isolate mt-2.5 flex flex-wrap justify-between gap-x-6 gap-y-4">
           <div className="flex gap-4">
-            <Button color="rose">Remover</Button>
+            <Button color="red">
+              <TrashIcon />
+              Remover
+            </Button>
           </div>
         </div>
       </div>
       <div className="mt-12 max-w-xl">
         <Subheading>Dados</Subheading>
         <Divider className="mt-4" />
-        <form action="">
+        <form action="" className="grid w-full grid-cols-1 gap-8">
           <DescriptionList>
             <DescriptionTerm>Agência</DescriptionTerm>
             <DescriptionDetails>
@@ -69,7 +68,9 @@ export default async function Budget({ params }: { params: Promise<{ id: string 
               <Select name="categoryName" required>
                 <option></option>
                 {categories.map((category) => (
-                  <option value={category.id} key={category.id}>{category.name}</option>
+                  <option value={category.id} key={category.id}>
+                    {category.name}
+                  </option>
                 ))}
               </Select>
             </DescriptionDetails>
@@ -86,4 +87,3 @@ export default async function Budget({ params }: { params: Promise<{ id: string 
     </>
   )
 }
-

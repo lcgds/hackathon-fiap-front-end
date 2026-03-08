@@ -1,21 +1,10 @@
 'use client'
 
 import { Navbar, NavbarSection, NavbarSpacer } from '@/components/navbar'
-import {
-  Sidebar,
-  SidebarBody,
-  SidebarItem,
-  SidebarLabel,
-  SidebarSection,
-} from '@/components/sidebar'
+import { Sidebar, SidebarBody, SidebarItem, SidebarLabel, SidebarSection } from '@/components/sidebar'
 import { SidebarLayout } from '@/components/sidebar-layout'
 import { getEvents } from '@/data'
-import {
-  CalculatorIcon,
-  HomeIcon,
-  TagIcon,
-  BanknotesIcon,
-} from '@heroicons/react/20/solid'
+import { BanknotesIcon, CalculatorIcon, HomeIcon } from '@heroicons/react/20/solid'
 import { usePathname } from 'next/navigation'
 
 export function ApplicationLayout({
@@ -45,22 +34,16 @@ export function ApplicationLayout({
                 <HomeIcon />
                 <SidebarLabel>Página inicial</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/categorias" current={pathname.startsWith('/categorias')}>
-                <TagIcon />
-                <SidebarLabel>Categorias</SidebarLabel>
-              </SidebarItem>
               <SidebarItem href="/transacoes" current={pathname.startsWith('/transacoes')}>
                 <BanknotesIcon />
                 <SidebarLabel>Transações</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/orcamento" current={pathname.startsWith('/orcamento')}>
                 <CalculatorIcon />
-                <SidebarLabel>Orçamento</SidebarLabel>
+                <SidebarLabel>Orçamentos</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
-            
           </SidebarBody>
-
         </Sidebar>
       }
     >

@@ -1,64 +1,70 @@
-import { Stat } from '@/app/stat'
 import { Avatar } from '@/components/avatar'
+import { Badge } from '@/components/badge'
 import { TransactionsChart } from '@/components/charts'
 import { Heading, Subheading } from '@/components/heading'
-import { Select } from '@/components/select'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table'
-import { getRecentTransactions, getTransactions, getTransactionsGroupByCategory } from '@/data'
-import { MONEY } from '@/format'
+import { Text } from '@/components/text'
+import { getRecentTransactions, getTransactionsGroupByCategory } from '@/data'
 
 export default async function Home() {
-  let transactions = await getRecentTransactions()
-  let transactionsByCategory = await getTransactionsGroupByCategory()
+  const transactions = await getRecentTransactions()
+  const transactionsByCategory = await getTransactionsGroupByCategory()
 
   return (
     <>
-      <Heading>Boa tarde, Erica</Heading>
-      <div className="mt-8 flex items-end justify-between">
-        <Subheading>Visão geral</Subheading>
-        <div>
-          <Select name="period">
-            <option value="last_week">Última semana</option>
-            <option value="last_two">Últimas duas semanas</option>
-            <option value="last_month">Último mês</option>
-            <option value="last_quarter">Último trimestre</option>
-          </Select>
+      <Heading>Finanças com IA</Heading>
+      <div className="mx-auto max-w-2xl lg:max-w-7xl">
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6">
+          <div className="relative lg:col-span-6">
+            <div className="absolute inset-0 rounded-lg max-lg:rounded-t-4xl lg:rounded-t-4xl"></div>
+            <div className="relative flex h-full flex-col overflow-hidden rounded-lg max-lg:rounded-t-4xl lg:rounded-t-4xl">
+              <div className="mx-auto flex flex-col p-10">
+                <div className="mr-4 flex shrink-0 flex-row gap-x-2">
+                  <Avatar initials="ia" className="size-8 bg-zinc-900 text-white dark:bg-white dark:text-black" />{' '}
+                  <Subheading>Conselho financeiro</Subheading>
+                </div>
+                <div>
+                  <Text className="mt-4">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porta vehicula ipsum sed faucibus.
+                    Etiam tempor hendrerit odio sed hendrerit. Curabitur molestie condimentum enim, ac dapibus mauris
+                    blandit non. Fusce viverra ipsum sed sapien auctor quam.
+                  </Text>
+                </div>
+              </div>
+            </div>
+            <div className="pointer-events-none absolute inset-0 rounded-lg shadow-sm outline outline-black/5 lg:rounded-t-4xl dark:outline-white/15"></div>
+          </div>
+
+          <div className="relative lg:col-span-3">
+            <div className="absolute inset-0 rounded-lg max-lg:rounded-bl-4xl lg:rounded-bl-4xl"></div>
+            <div className="relative flex h-full flex-col overflow-hidden rounded-lg max-lg:rounded-bl-4xl lg:rounded-bl-4xl">
+              <div className="p-10 pt-4">
+                <Subheading>Gastos por categoria</Subheading>
+              </div>
+              <div className="align-center flex h-96 justify-center pb-6">
+                <TransactionsChart
+                  data={transactionsByCategory.data}
+                  labels={transactionsByCategory.labels}
+                  type={'category'}
+                />
+              </div>
+            </div>
+            <div className="pointer-events-none absolute inset-0 rounded-lg shadow-sm outline outline-black/5 lg:rounded-bl-4xl dark:outline-white/15"></div>
+          </div>
+
+          <div className="relative lg:col-span-3">
+            <div className="absolute inset-0 rounded-lg lg:rounded-br-4xl"></div>
+            <div className="relative flex h-full flex-col overflow-hidden rounded-lg lg:rounded-br-4xl">
+              <div className="p-10 pt-4">
+                <Subheading>Gastos por dia</Subheading>
+              </div>
+              <div className="flex h-full items-center justify-center pb-6">
+                <Badge color="yellow">Em construção</Badge>
+              </div>
+            </div>
+            <div className="pointer-events-none absolute inset-0 rounded-lg shadow-sm outline outline-black/5 lg:rounded-br-4xl dark:outline-white/15"></div>
+          </div>
         </div>
       </div>
-      <div className="mt-4 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat title="Total revenue" value="$2.6M" change="+4.5%" />
-        <Stat title="Average order value" value="$455" change="-0.5%" />
-        <Stat title="Tickets sold" value="5,888" change="+4.5%" />
-        <Stat title="Pageviews" value="823,067" change="+21.2%" />
-      </div>
-      <div className="mt-16 h-[255px] flex align-center justify-center">
-        <TransactionsChart data={transactionsByCategory.data} labels={transactionsByCategory.labels} />
-      </div>
-      <Subheading className="mt-14">Transações recentes</Subheading>
-      <Table className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
-        <TableHead>
-          <TableRow>
-            <TableHeader>Código</TableHeader>
-            <TableHeader>Data</TableHeader>
-            <TableHeader>Categoria</TableHeader>
-            <TableHeader className="text-right">Valor</TableHeader>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {transactions.map((transaction) => (
-            <TableRow key={transaction.id} href={`/transacoes/${transaction.id}`} title={`Transação #${transaction.id}`}>
-              <TableCell>{transaction.id}</TableCell>
-              <TableCell className="text-zinc-500">{transaction.date}</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-2">
-                  <span>{transaction.category.name}</span>
-                </div>
-              </TableCell>
-              <TableCell className="text-right">{MONEY.format(transaction.amount)}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
     </>
   )
 }

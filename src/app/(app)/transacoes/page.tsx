@@ -1,9 +1,9 @@
-import { Avatar } from '@/components/avatar'
 import { Button } from '@/components/button'
 import { Heading } from '@/components/heading'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table'
 import { getTransactions } from '@/data'
 import { MONEY } from '@/format'
+import { PlusIcon } from '@heroicons/react/16/solid'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -17,7 +17,10 @@ export default async function Transactions() {
     <>
       <div className="flex items-end justify-between gap-4">
         <Heading>Transações</Heading>
-        <Button className="-my-0.5" href="/transacoes/criar">Criar transação</Button>
+        <Button color="green" className="-my-0.5" href="/transacoes/criar">
+          <PlusIcon />
+          Registrar transação
+        </Button>
       </div>
       <Table className="mt-8 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
@@ -30,9 +33,13 @@ export default async function Transactions() {
         </TableHead>
         <TableBody>
           {transactions.map((transaction) => (
-            <TableRow key={transaction.id} href={`/transacoes/${transaction.id}`} title={`Transação #${transaction.id}`}>
+            <TableRow
+              key={transaction.id}
+              href={`/transacoes/${transaction.id}`}
+              title={`Transação #${transaction.id}`}
+            >
               <TableCell>{transaction.id}</TableCell>
-              <TableCell className="text-zinc-500">{transaction.date}</TableCell>
+              <TableCell className="text-zinc-500">{new Date(transaction.date).toLocaleDateString('pt-BR')}</TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
                   <span>{transaction.category.name}</span>

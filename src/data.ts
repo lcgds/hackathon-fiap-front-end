@@ -32,11 +32,11 @@ export async function getBudget(id: string) {
 export async function getTransactionsGroupByCategory() {
   // Resposta da API
   let response = [
-    { category: 'Saúde', total: 150.00 },
-    { category: 'Alimentação', total: 400.00 },
-    { category: 'Supermercado', total: 700.00 },
-    { category: 'Cinema', total: 60.00 },
-    { category: 'Viagem', total: 1600.00 },
+    { category: 'Saúde', total: 150.0 },
+    { category: 'Alimentação', total: 400.0 },
+    { category: 'Supermercado', total: 700.0 },
+    { category: 'Cinema', total: 60.0 },
+    { category: 'Viagem', total: 1600.0 },
   ]
 
   let labels = []
@@ -80,9 +80,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -106,9 +106,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/us.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -132,9 +132,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -158,9 +158,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -184,9 +184,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -210,9 +210,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/us.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -236,9 +236,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -262,9 +262,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -288,9 +288,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -314,9 +314,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -340,9 +340,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -366,9 +366,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/us.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -392,9 +392,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -418,9 +418,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -444,9 +444,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/us.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -470,9 +470,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -496,9 +496,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -522,9 +522,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -548,9 +548,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -574,9 +574,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -600,9 +600,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -626,9 +626,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -652,9 +652,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -678,9 +678,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -704,9 +704,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/ca.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
     {
@@ -730,9 +730,9 @@ export async function getTransactions() {
         countryFlagUrl: '/flags/us.svg',
       },
       category: {
-        'id': 0,
-        'url': '/categorias/0',
-        'name': 'Saúde',
+        id: 0,
+        url: '/categorias/0',
+        name: 'Saúde',
       },
     },
   ]
