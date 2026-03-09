@@ -119,15 +119,6 @@ export const entryService = {
             entry_type: entry_type
         }
 
-        const response = await fetch(urlPostEntry, {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-            cache: 'no-store', 
-        });
-
         if (category && category !== '') {
             await fetch(urlPostRule, {
                 method: 'POST',
@@ -138,6 +129,15 @@ export const entryService = {
                 cache: 'no-store', 
             });   
         }
+
+        const response = await fetch(urlPostEntry, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+            cache: 'no-store', 
+        });
 
         if (!response.ok) {
             const errorDetail = await response.text();
