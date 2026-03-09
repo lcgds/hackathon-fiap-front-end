@@ -3,7 +3,6 @@
 import { Navbar, NavbarSection, NavbarSpacer } from '@/components/navbar'
 import { Sidebar, SidebarBody, SidebarItem, SidebarLabel, SidebarSection } from '@/components/sidebar'
 import { SidebarLayout } from '@/components/sidebar-layout'
-import { getEvents } from '@/data'
 import { BanknotesIcon, CalculatorIcon, HomeIcon } from '@heroicons/react/20/solid'
 import { usePathname } from 'next/navigation'
 

@@ -4,15 +4,16 @@ import { Divider } from '@/components/divider'
 import { Heading, Subheading } from '@/components/heading'
 import { Input } from '@/components/input'
 import { Link } from '@/components/link'
-import { Select } from '@/components/select'
-import { getBudget, getCategories } from '@/data'
 import { ChevronLeftIcon, TrashIcon } from '@heroicons/react/16/solid'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
+import { budgetService } from '@/services/budgetService'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   let { id } = await params
-  let budget = await getBudget(id)
+  let budgets = await budgetService.getBudgetList()
+  let budget = budgets.find((b) => b.id === Number(id))
 
   return {
     title: budget && `Orçamento #${budget.id}`,
@@ -21,13 +22,36 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function Budget({ params }: { params: Promise<{ id: string }> }) {
   let { id } = await params
-  let budget = await getBudget(id)
+  let budgets = await budgetService.getBudgetList()
+  let budget = budgets.find((b) => b.id === Number(id))
 
   if (!budget) {
     notFound()
   }
 
-  let categories = await getCategories()
+  async function updateBudget(formData: FormData) {
+      'use server'
+  
+      const data = await budgetService.updateBudget(
+        Number(id),
+        String(formData.get('category_name')),
+        Number(formData.get('budget_amount'))
+      );
+  
+      revalidatePath('/orcamento');
+      redirect('/orcamento');
+  }
+
+  async function deleteBudget(formData: FormData) {
+      'use server'
+  
+      const data = await budgetService.deleteBudget(
+        Number(id)
+      );
+  
+      revalidatePath('/orcamento');
+      redirect('/orcamento');
+  }
 
   return (
     <>
@@ -43,40 +67,35 @@ export default async function Budget({ params }: { params: Promise<{ id: string 
         </div>
         <div className="isolate mt-2.5 flex flex-wrap justify-between gap-x-6 gap-y-4">
           <div className="flex gap-4">
-            <Button color="red">
-              <TrashIcon />
-              Remover
-            </Button>
+            <form action={deleteBudget}>
+              <Button color="red" type="submit">
+                <TrashIcon />
+                Remover
+              </Button>
+            </form>
           </div>
         </div>
       </div>
       <div className="mt-12 max-w-xl">
         <Subheading>Dados</Subheading>
         <Divider className="mt-4" />
-        <form action="" className="grid w-full grid-cols-1 gap-8">
+        <form action={updateBudget} className="grid w-full grid-cols-1 gap-8">
           <DescriptionList>
             <DescriptionTerm>Agência</DescriptionTerm>
             <DescriptionDetails>
-              <Input name="agency" />
+              <Input name="agency" defaultValue={process.env.NEXT_PUBLIC_AGENCY} disabled />
             </DescriptionDetails>
             <DescriptionTerm>Conta</DescriptionTerm>
             <DescriptionDetails>
-              <Input name="account" />
+              <Input name="account" defaultValue={process.env.NEXT_PUBLIC_AGENCY} disabled />
             </DescriptionDetails>
             <DescriptionTerm>Categoria</DescriptionTerm>
             <DescriptionDetails>
-              <Select name="categoryName" required>
-                <option></option>
-                {categories.map((category) => (
-                  <option value={category.id} key={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </Select>
+              <Input name="category_name" defaultValue={budget.category_name} required />
             </DescriptionDetails>
-            <DescriptionTerm>Valor</DescriptionTerm>
+            <DescriptionTerm>Valor de Orçamento</DescriptionTerm>
             <DescriptionDetails>
-              <Input type="number" step="0.01" min="0.01" name="budget" defaultValue={budget.budgetAmount} />
+              <Input type="number" step="0.01" min="0.01" name="budget_amount" defaultValue={budget.budget_amount} />
             </DescriptionDetails>
           </DescriptionList>
           <Button type="submit" className="w-full">

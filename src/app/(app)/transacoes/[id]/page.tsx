@@ -5,29 +5,45 @@ import { Heading, Subheading } from '@/components/heading'
 import { Input } from '@/components/input'
 import { Link } from '@/components/link'
 import { Select } from '@/components/select'
-import { getCategories, getTransaction } from '@/data'
 import { ChevronLeftIcon, TrashIcon } from '@heroicons/react/16/solid'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
+import { entryService } from '@/services/entryService'
+import { budgetService } from '@/services/budgetService'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   let { id } = await params
-  let transaction = await getTransaction(id)
+  let transaction = await entryService.getEntryId(Number(id))
 
   return {
-    title: transaction && `Transação #${transaction.id}`,
+    title: transaction.entry_name && `Transação #${transaction.id}`,
   }
 }
 
 export default async function Transaction({ params }: { params: Promise<{ id: string }> }) {
   let { id } = await params
-  let transaction = await getTransaction(id)
+  let transaction = await entryService.getEntryId(Number(id));
 
   if (!transaction) {
     notFound()
   }
 
-  let categories = await getCategories()
+  let budgets = await budgetService.getBudgetList();
+  const selectedBudget = budgets.find((budget) => budget.category_name === transaction.category);
+  const defaultCategoryId = selectedBudget ? selectedBudget.id : "";
+
+  async function updateTransaction(formData: FormData) {
+    'use server'
+    const categoryId = Number(formData.get('category'));
+    const category_name = String(budgets.find((budget) => budget.id === categoryId)?.category_name);
+
+    const data = await entryService.updateEntryCategory(Number(id), category_name, transaction.entry_name, transaction.agency, transaction.account);
+
+    revalidatePath('/transacoes');
+    revalidatePath(`/transacoes/${id}`);
+    redirect('/transacoes');
+  }
 
   return (
     <>
@@ -41,58 +57,50 @@ export default async function Transaction({ params }: { params: Promise<{ id: st
         <div className="flex items-center gap-4">
           <Heading>Transação #{transaction.id}</Heading>
         </div>
-        <div className="isolate mt-2.5 flex flex-wrap justify-between gap-x-6 gap-y-4">
-          <div className="flex gap-4">
-            <Button color="red">
-              <TrashIcon />
-              Remover
-            </Button>
-          </div>
-        </div>
       </div>
       <div className="mt-12 max-w-xl">
         <Subheading>Dados</Subheading>
         <Divider className="mt-4" />
-        <form action="" className="grid w-full grid-cols-1 gap-8">
+        <form action={updateTransaction} className="grid w-full grid-cols-1 gap-8">
           <DescriptionList>
             <DescriptionTerm>CPF</DescriptionTerm>
             <DescriptionDetails>
-              <Input name="cpf" disabled />
+              <Input name="cpf" defaultValue={transaction.cpf} disabled/>
             </DescriptionDetails>
             <DescriptionTerm>Agência</DescriptionTerm>
             <DescriptionDetails>
-              <Input name="agency" disabled />
+              <Input name="agency" defaultValue={transaction.agency} disabled />
             </DescriptionDetails>
             <DescriptionTerm>Conta</DescriptionTerm>
             <DescriptionDetails>
-              <Input name="account" disabled />
+              <Input name="account" defaultValue={transaction.account} disabled />
             </DescriptionDetails>
             <DescriptionTerm>Descrição</DescriptionTerm>
             <DescriptionDetails>
-              <Input name="entryName" disabled />
+              <Input name="entry_name" defaultValue={transaction.entry_name} disabled />
             </DescriptionDetails>
             <DescriptionTerm>Tipo da transação</DescriptionTerm>
             <DescriptionDetails>
-              <Select name="entryType" disabled>
+              <Select name="entry_type" defaultValue={transaction.entry_type} disabled>
                 <option></option>
-                <option>Débido</option>
-                <option>Crédito</option>
+                <option>DEBIT</option>
+                <option>CREDIT</option>
               </Select>
             </DescriptionDetails>
             <DescriptionTerm>Categoria</DescriptionTerm>
             <DescriptionDetails>
-              <Select name="categoryName" required>
+              <Select name="category" defaultValue={defaultCategoryId} required>
                 <option></option>
-                {categories.map((category) => (
-                  <option value={category.id} key={category.id}>
-                    {category.name}
+                {budgets.map((budget) => (
+                  <option value={budget.id} key={budget.id}>
+                    {budget.category_name}
                   </option>
                 ))}
               </Select>
             </DescriptionDetails>
             <DescriptionTerm>Valor</DescriptionTerm>
             <DescriptionDetails>
-              <Input type="number" step="0.01" min="0.01" name="amount" defaultValue={transaction.amount} disabled />
+              <Input type="number" step="0.01" min="0.01" name="amount" defaultValue={transaction.value} disabled />
             </DescriptionDetails>
           </DescriptionList>
           <Button type="submit" className="w-full">

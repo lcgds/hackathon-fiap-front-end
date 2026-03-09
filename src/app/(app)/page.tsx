@@ -3,11 +3,12 @@ import { Badge } from '@/components/badge'
 import { TransactionsChart } from '@/components/charts'
 import { Heading, Subheading } from '@/components/heading'
 import { Text } from '@/components/text'
-import { getRecentTransactions, getTransactionsGroupByCategory } from '@/data'
+import { aiService } from '@/services/aiInsightService'
+import { budgetService } from '@/services/budgetService'
 
 export default async function Home() {
-  const transactions = await getRecentTransactions()
-  const transactionsByCategory = await getTransactionsGroupByCategory()
+  const insight = await aiService.getInsight()
+  const budgets = await budgetService.getBudgetList()
 
   return (
     <>
@@ -23,10 +24,8 @@ export default async function Home() {
                   <Subheading>Conselho financeiro</Subheading>
                 </div>
                 <div>
-                  <Text className="mt-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porta vehicula ipsum sed faucibus.
-                    Etiam tempor hendrerit odio sed hendrerit. Curabitur molestie condimentum enim, ac dapibus mauris
-                    blandit non. Fusce viverra ipsum sed sapien auctor quam.
+                  <Text className="mt-4 italic">
+                    {insight ? `"${insight}"` : "Carregando conselho financeiro..."}
                   </Text>
                 </div>
               </div>
@@ -42,8 +41,8 @@ export default async function Home() {
               </div>
               <div className="align-center flex h-96 justify-center pb-6">
                 <TransactionsChart
-                  data={transactionsByCategory.data}
-                  labels={transactionsByCategory.labels}
+                  data={budgets.map(budget => budget.actual_amount)}
+                  labels={budgets.map(budget => budget.category_name)}
                   type={'category'}
                 />
               </div>

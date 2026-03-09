@@ -1,17 +1,23 @@
 import { Button } from '@/components/button'
 import { Heading } from '@/components/heading'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table'
-import { getTransactions } from '@/data'
 import { MONEY } from '@/format'
 import { PlusIcon } from '@heroicons/react/16/solid'
 import type { Metadata } from 'next'
+import { entryService } from '@/services/entryService'
 
 export const metadata: Metadata = {
   title: 'Transações',
 }
 
 export default async function Transactions() {
-  let transactions = await getTransactions()
+  let transactions = await entryService.getEntries();
+  transactions = transactions.sort((a, b) => {
+    const dateA = new Date(a.entry_ts)
+    const dateB = new Date(b.entry_ts)
+
+    return dateA - dateB
+  })
 
   return (
     <>
@@ -39,13 +45,13 @@ export default async function Transactions() {
               title={`Transação #${transaction.id}`}
             >
               <TableCell>{transaction.id}</TableCell>
-              <TableCell className="text-zinc-500">{new Date(transaction.date).toLocaleDateString('pt-BR')}</TableCell>
+              <TableCell className="text-zinc-500">{new Date(transaction.entry_ts).toLocaleDateString('pt-BR')}</TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
-                  <span>{transaction.category.name}</span>
+                  <span>{transaction.category}</span>
                 </div>
               </TableCell>
-              <TableCell className="text-right">{MONEY.format(transaction.amount)}</TableCell>
+              <TableCell className="text-right">{MONEY.format(transaction.value)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
